@@ -31,11 +31,12 @@
             <TextField fx:id="textFieldKeie" layoutX="162.0" layoutY="469.0" prefHeight="25.0" prefWidth="364.0" />
             <Label fx:id="labelKeie" layoutX="272.0" layoutY="434.0" text="Keie" />
             <RadioButton fx:id="radioButtonNet" layoutX="483.0" layoutY="101.0" mnemonicParsing="false" text="net" />
-            <RadioButton fx:id="radioButtonServerPropriu" layoutX="484.0" layoutY="123.0" mnemonicParsing="false" text="server propriu" />
-            <RadioButton fx:id="radioButtonLocal" layoutX="484.0" layoutY="147.0" mnemonicParsing="false" text="statie unica" />
+            <RadioButton fx:id="radioButtonServerPropriu" layoutX="483.0" layoutY="150.0" mnemonicParsing="false" onAction="#radioButtonServerPropriuAct" text="server propriu" />
+            <RadioButton fx:id="radioButtonLocal" layoutX="483.0" layoutY="124.0" mnemonicParsing="false" text="statie unica" />
             <ComboBox fx:id="comboBoxMonth" layoutX="243.0" layoutY="305.0" prefHeight="25.0" prefWidth="74.0" />
             <ComboBox fx:id="comboBoxYear" layoutX="344.0" layoutY="305.0" prefHeight="25.0" prefWidth="72.0" />
             <Label layoutX="147.0" layoutY="309.0" text="Data Expirarii " />
+            <TextField fx:id="textFieldServer" layoutX="475.0" layoutY="185.0" />
          </children>
       </AnchorPane>
    </children>
