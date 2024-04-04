@@ -39,8 +39,10 @@ public class ControllerStage0 implements Initializable {
 
     public static String bazaDeDate = "information_schema";
     public static String backUpbazaDeDate = "autoNelYFunDa250223Bbackup";
-    public static String USER=  "aUtONeli";
-    public static String PASSWORD=  "pas@NeLy2gynLog23";
+//    public static String USER=  "aUtONeli";
+//    public static String PASSWORD=  "pas@NeLy2gynLog23";
+    public static String USER=  "root";
+    public static String PASSWORD=  "root";
     //    public static String SERVER="95.214.135.69";
 //        public static String SERVER="localhost";
 //        public static String SERVER="10.59.4.8";
