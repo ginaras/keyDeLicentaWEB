@@ -4,7 +4,11 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 
+import java.awt.*;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
@@ -31,6 +35,9 @@ public class ControllerStage0 implements Initializable {
     public ComboBox comboBoxYear;
     static String generatedDB;
     public TextField textFieldServer;
+    public Button buttonSave;
+    public Button buttonGenerateDB;
+    public Button buttonCopyKey;
     String generatedUSerName;
     String generatedPass;
 
@@ -47,9 +54,19 @@ public class ControllerStage0 implements Initializable {
     String SERVER;
     public static String PORT = "3306";
 
+    String app=null;
+    String monthStr=null;
+    String yearStr=null;
+    String inverseMonthStr=null;
+    String inverseYearhStr=null;
+    String server=null;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        buttonSave.setDisable(true);
         textFieldServer.setVisible(false);
+        buttonGenerateDB.setDisable(true);
+        buttonCopyKey.setDisable(true);
         comboBoxApp.setItems(FXCollections.observableArrayList("Auto", "Managementul Proiectelor"));
         comboBoxMonth.setItems(FXCollections.observableArrayList("ian", "feb", "mar", "apr", "mai", "iun", "iul", "aug", "sep", "oct", "noi", "dec"));
         comboBoxYear.setItems(FXCollections.observableArrayList("24", "25", "26", "27", "28", "29", "30"));
@@ -117,84 +134,23 @@ public class ControllerStage0 implements Initializable {
         textFieldUserName.setText(generatedUSerName);
         textFieldPass.setText(generatedPass);
 
-        String app=null;
+
         if(comboBoxApp.getValue()=="Auto") {            app="auto";        }
         if(comboBoxApp.getValue()=="Managementul Proiectelor") {            app="mgpr";        }
 
-        String monthStr =comboBoxMonth.getValue().toString();
-        String yearStr =comboBoxYear.getValue().toString();
-        String inverseMonthStr=monthStr.substring(2,3)+monthStr.substring(1,2)+monthStr.substring(0,1);
-        String inverseYearhStr=yearStr.substring(1,2)+yearStr.substring(0,1);
-        String server=null;
+         monthStr =comboBoxMonth.getValue().toString();
+         yearStr =comboBoxYear.getValue().toString();
+         inverseMonthStr=monthStr.substring(2,3)+monthStr.substring(1,2)+monthStr.substring(0,1);
+         inverseYearhStr=yearStr.substring(1,2)+yearStr.substring(0,1);
 
         if(radioButtonNet.isSelected()) { server="n";  SERVER= "95.214.135.69";     }
         if(radioButtonLocal.isSelected()){server="l"; SERVER="localhost";}
         if(radioButtonServerPropriu.isSelected()){server="s"; SERVER=textFieldServer.getText();}
 
-        System.out.println(SERVER);
-        labelKeie.setText(app+textFieldDB.getText()+textFieldUserName.getText()+textFieldPass.getText()+inverseYearhStr+inverseMonthStr+server);
-        textFieldKeie.setText(app+textFieldDB.getText()+textFieldUserName.getText()+textFieldPass.getText()+inverseYearhStr+inverseMonthStr+server);
-
-        FileWriter fileWriter=new FileWriter("credentiale/"+comboBoxApp.getValue().toString()+"-"+textFieldClient.getText());
-        fileWriter.append(textFieldClient.getText()+"\n");
-        fileWriter.append("DB-"+textFieldDB.getText()+"\n");
-        fileWriter.append("UN-"+textFieldUserName.getText()+"\n");
-        fileWriter.append("P-"+textFieldPass.getText()+"\n");
-        if(radioButtonNet.isSelected()){ fileWriter.append("pe net+\n");}
-        if(radioButtonLocal.isSelected()){ fileWriter.append("local+\n");}
-        if(radioButtonServerPropriu.isSelected()){ fileWriter.append("srv-"+textFieldServer.getText()+"\n");}
-        fileWriter.append("   -----------------"+"\n");
-        fileWriter.append("Licenta: "+labelKeie.getText()+"\n");
-        fileWriter.close();
-
-        System.out.println(labelKeie.getText().length());
-        String CREATEUSERNAME = "CREATE USER IF NOT EXISTS "+USER+"@"+SERVER+" identified by "+PASSWORD+" ";
-        String URL = String.format( "jdbc:mariadb://"+SERVER+":"+PORT+"/"+bazaDeDate+"" );
-//        public static String URL = String.format( "jdbc:mariadb://95.214.135.69:3306/autoNelYFunDa250223" );
-//    public static String URLbackup = String.format( "jdbc:mariadb://'"+SERVER+"':'"+PORT+"'/'"+backUpbazaDeDate+"'" );
-
-          String URLbackup = String.format( "jdbc:mariadb://"+SERVER+":"+PORT+"/"+backUpbazaDeDate+"" );
-         String USE_DATABASE = "USE "+generatedDB+" ";
-         String USE_DATABASE_backup = "USE '"+backUpbazaDeDate+"'";
-         String selectUser ="SELECT USER '"+USER+"' FROM mysql.user";
-try {
-    Connection connectionFirst = DriverManager.getConnection(URL, USER, PASSWORD);
-    Statement statementINV = connectionFirst.createStatement();
-        statementINV.executeQuery("CREATE DATABASE IF NOT EXISTS "+textFieldDB.getText()+"");
-        statementINV.executeUpdate(USE_DATABASE);
-        statementINV.executeUpdate(CREATE_AUTO_TBL);
-        statementINV.executeUpdate(CREATE_RCA_ITP_AURORIZARI);
-        statementINV.executeUpdate(CREATE_LISTA_DOCUMENTE);
-        statementINV.executeUpdate(CREATE_TABLE_FACTURI_CARBURANTI);
-        statementINV.executeUpdate(CREATE_CONSUM_CARBURANTI);
-        statementINV.executeUpdate(CREATE_PIESE);
-        statementINV.executeUpdate(CREATE_TABLE_LOG);
-        statementINV.executeUpdate(CREATE_TABLE_AUTORIZARI_AUTO);
-        statementINV.executeUpdate(CREATE_TABLE_RESP_PRIVILEGE);
-        statementINV.executeUpdate(CREATE_TABLE_REVIZII);
-        statementINV.executeUpdate(CREATE_TABLE_ADMINSTRATIV);
-} catch(SQLException e) {
-    Alert alert = new Alert(Alert.AlertType.INFORMATION, "nu s-a putut conecta la baza de date");
-    alert.showAndWait();
-}
-
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "ai creat tabelele");
-        alert.setHeaderText("AI CREAT TABLELE");
-        alert.showAndWait();
 
         buttonGenerate.setDisable(true);
+        buttonSave.setDisable(false);
     }
-
-
-
-//    public Void Auto {
-
-
-
-
-
-
 
 //        public static final String CREATE_DATABASE="CREATE DATABASE IF NOT EXISTS '"+textF+"'";
         public static final String CREATE_AUTO_TBL= "CREATE TABLE IF NOT EXISTS auto (nrCrt INT(4) AUTO_INCREMENT PRIMARY KEY, nrInventar VARCHAR (15), nrInmatriculare VARCHAR (12), marca VARCHAR (40), model VARCHAR (40), tip VARCHAR (50), combustibil VARCHAR (20), capacitateRezervor INT(4), anvelopeMarca VARCHAR (30), anvelopeTip VARCHAR (30), serieSasiu VARCHAR (20), valAchizitie VARCHAR (12) , dataAchizitiei DATE, dataPrimeiInmatr DATE, nrAxe INT(2), kmInitiali INT(7), lungime VARCHAR(6), latime VARCHAR(6), inaltime VARCHAR(4), gabarit VARCHAR(6), operare VARCHAR (100)  )";
@@ -212,6 +168,79 @@ try {
 
     public void radioButtonServerPropriuAct(ActionEvent actionEvent) {
         textFieldServer.setVisible(true);
+    }
+
+    public void buttonSaveAct(ActionEvent actionEvent) throws IOException {
+        System.out.println(SERVER);
+        labelKeie.setText(app+textFieldDB.getText()+textFieldUserName.getText()+textFieldPass.getText()+inverseYearhStr+inverseMonthStr+server);
+        textFieldKeie.setText(app+textFieldDB.getText()+textFieldUserName.getText()+textFieldPass.getText()+inverseYearhStr+inverseMonthStr+server);
+
+        FileWriter fileWriter=new FileWriter("credentiale/"+comboBoxApp.getValue().toString()+"-"+textFieldClient.getText());
+        fileWriter.append(textFieldClient.getText()+"\n");
+        fileWriter.append("DB-"+textFieldDB.getText()+"\n");
+        fileWriter.append("UN-"+textFieldUserName.getText()+"\n");
+        fileWriter.append("P-"+textFieldPass.getText()+"\n");
+        if(radioButtonNet.isSelected()){ fileWriter.append("pe net+\n");}
+        if(radioButtonLocal.isSelected()){ fileWriter.append("local+\n");}
+        if(radioButtonServerPropriu.isSelected()){ fileWriter.append("srv-"+textFieldServer.getText()+"\n");}
+        fileWriter.append("   -----------------"+"\n");
+        fileWriter.append("Licenta: "+labelKeie.getText()+"\n");
+        fileWriter.close();
+
+        textFieldDB.setDisable(true);
+        textFieldUserName.setDisable(true);
+        textFieldPass.setDisable(true);
+        textFieldClient.setDisable(true);
+        textFieldServer.setDisable(true);
+        buttonGenerateDB.setDisable(false);
+        buttonCopyKey.setDisable(false);
+        System.out.println(labelKeie.getText().length());
+
+    }
+
+    public void buttonGenerateDBAct(ActionEvent actionEvent) {
+        String CREATEUSERNAME = "CREATE USER IF NOT EXISTS "+USER+"@"+SERVER+" identified by "+PASSWORD+" ";
+        String URL = String.format( "jdbc:mariadb://"+SERVER+":"+PORT+"/"+bazaDeDate+"" );
+//        public static String URL = String.format( "jdbc:mariadb://95.214.135.69:3306/autoNelYFunDa250223" );
+//    public static String URLbackup = String.format( "jdbc:mariadb://'"+SERVER+"':'"+PORT+"'/'"+backUpbazaDeDate+"'" );
+
+        String URLbackup = String.format( "jdbc:mariadb://"+SERVER+":"+PORT+"/"+backUpbazaDeDate+"" );
+        String USE_DATABASE = "USE "+generatedDB+" ";
+        String USE_DATABASE_backup = "USE '"+backUpbazaDeDate+"'";
+        String selectUser ="SELECT USER '"+USER+"' FROM mysql.user";
+        try {
+            Connection connectionFirst = DriverManager.getConnection(URL, USER, PASSWORD);
+            Statement statementINV = connectionFirst.createStatement();
+            statementINV.executeQuery("CREATE DATABASE IF NOT EXISTS "+textFieldDB.getText()+"");
+            statementINV.executeUpdate(USE_DATABASE);
+            statementINV.executeUpdate(CREATE_AUTO_TBL);
+            statementINV.executeUpdate(CREATE_RCA_ITP_AURORIZARI);
+            statementINV.executeUpdate(CREATE_LISTA_DOCUMENTE);
+            statementINV.executeUpdate(CREATE_TABLE_FACTURI_CARBURANTI);
+            statementINV.executeUpdate(CREATE_CONSUM_CARBURANTI);
+            statementINV.executeUpdate(CREATE_PIESE);
+            statementINV.executeUpdate(CREATE_TABLE_LOG);
+            statementINV.executeUpdate(CREATE_TABLE_AUTORIZARI_AUTO);
+            statementINV.executeUpdate(CREATE_TABLE_RESP_PRIVILEGE);
+            statementINV.executeUpdate(CREATE_TABLE_REVIZII);
+            statementINV.executeUpdate(CREATE_TABLE_ADMINSTRATIV);
+        } catch(SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "nu s-a putut conecta la baza de date");
+            alert.showAndWait();
+        }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "ai creat tabelele");
+        alert.setHeaderText("AI CREAT TABLELE");
+        alert.showAndWait();
+
+    }
+
+    public void buttonCopyKeyAct(ActionEvent actionEvent) {
+        Clipboard clipboard=Clipboard.getSystemClipboard();
+        ClipboardContent clipboardContent=new ClipboardContent();
+        clipboardContent.putString(labelKeie.getText());
+        clipboard.setContent(clipboardContent);
+
+//        Desktop.getDesktop().open(new File(raport + replaceNumeData1 + ".csv"));
     }
 
 //    }

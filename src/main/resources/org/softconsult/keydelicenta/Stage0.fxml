@@ -16,7 +16,7 @@
    <children>
       <AnchorPane prefHeight="600.0" prefWidth="800.0">
          <children>
-             <Button fx:id="buttonGenerate" layoutX="272.0" layoutY="361.0" onAction="#buttonGenerateAct" text="Genereaza" />
+             <Button fx:id="buttonGenerate" layoutX="259.0" layoutY="364.0" onAction="#buttonGenerateAct" text="Genereaza" />
             <Label layoutX="145.0" layoutY="145.0" text="Baza de date" />
             <TextField fx:id="textFieldDB" layoutX="244.0" layoutY="141.0" />
             <Label layoutX="145.0" layoutY="180.0" text="UserName" />
@@ -37,6 +37,9 @@
             <ComboBox fx:id="comboBoxYear" layoutX="344.0" layoutY="305.0" prefHeight="25.0" prefWidth="72.0" />
             <Label layoutX="147.0" layoutY="309.0" text="Data Expirarii " />
             <TextField fx:id="textFieldServer" layoutX="475.0" layoutY="185.0" />
+            <Button fx:id="buttonSave" layoutX="354.0" layoutY="362.0" onAction="#buttonSaveAct" text="Salveaza Cheia" />
+            <Button fx:id="buttonGenerateDB" layoutX="475.0" layoutY="362.0" onAction="#buttonGenerateDBAct" text="Creaza Baza de date" />
+            <Button fx:id="buttonCopyKey" layoutX="550.0" layoutY="469.0" onAction="#buttonCopyKeyAct" text="Copy key" />
          </children>
       </AnchorPane>
    </children>
