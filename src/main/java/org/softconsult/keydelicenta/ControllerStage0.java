@@ -70,7 +70,7 @@ public class ControllerStage0 implements Initializable {
         buttonGenerateDB.setDisable(true);
         buttonCopyKey.setDisable(true);
         comboBoxApp.setItems(FXCollections.observableArrayList("Auto", "Managementul Proiectelor"));
-        comboBoxMonth.setItems(FXCollections.observableArrayList("ian", "feb", "mar", "apr", "mai", "iun", "iul", "aug", "sep", "oct", "noi", "dec"));
+        comboBoxMonth.setItems(FXCollections.observableArrayList("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"));
         comboBoxYear.setItems(FXCollections.observableArrayList("24", "25", "26", "27", "28", "29", "30"));
 
         ToggleGroup toggleGroup=new ToggleGroup();
