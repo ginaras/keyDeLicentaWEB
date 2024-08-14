@@ -7,7 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 
-import java.awt.*;
+//import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -79,7 +79,23 @@ public class ControllerStage0 implements Initializable {
         radioButtonServerPropriu.setToggleGroup(toggleGroup);
         radioButtonNet.setSelected(true);
 
+        int leftLimit = 48; // numeral '0'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 2;
+        Random random = new Random();
+        String newCode= random.ints(leftLimit, rightLimit + 1)
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+        System.out.println(newCode);
 
+        Random rnd = new Random();
+        char c = (char) ('a' + rnd.nextInt(26));
+        char d = (char) ('a' + rnd.nextInt(26));
+
+        String comb=String.valueOf(c)+d;
+        System.out.println("C  "+comb);
     }
 
     public void buttonGenerateAct(ActionEvent actionEvent) throws SQLException, IOException {
